@@ -21,15 +21,18 @@ def get_player_move(player_piece, game_pieces):
     """Get a payers move until is valid"""
     is_getting_move = True
     while is_getting_move:
-        player_move = int(input(f"{player_piece}: Where would you like to place your piece (1-9)? "))
-        if player_move > 0 and player_move < 10:
-            if game_pieces[player_move -1] == "_":
-                game_pieces[player_move -1] = player_piece
-                is_getting_move = False
+        try:
+            player_move = int(input(f"{player_piece}: Where would you like to place your piece (1-9)? "))
+            if player_move > 0 and player_move < 10:
+                if game_pieces[player_move -1] == "_":
+                    game_pieces[player_move -1] = player_piece
+                    is_getting_move = False
+                else:
+                    print("That spot has already been taken. Please choose another spot.")
             else:
-                print("That spot has already been taken. Please choose another spot.")
-        else:
-            print("Invalid move. Please choose a spot between 1 and 9.")
+                print("Invalid move. Please choose a spot between 1 and 9.")
+        except ValueError:
+            print("Invalid input. Please enter a number between 1 and 9.")
 
 
 def determine_winner(player_piece, game_pieces):
@@ -44,8 +47,31 @@ def determine_winner(player_piece, game_pieces):
             (game_pieces[2] == player_piece and game_pieces[4] == player_piece and game_pieces[6] == player_piece))
 
 
+def show_game_intro():
+    """Display welcome message and game instructions"""
+    print("\n" + "="*50)
+    print("        Welcome to Keko's Tic Tac Toe Game!")
+    print("="*50)
+    print("\nGame Setup:")
+    print("  • Player 1: X")
+    print("  • Player 2: O")
+    print("  • X goes first!")
+    print("\nHow to play:")
+    print("  • Choose positions 1-9 as shown on the number board below")
+    print("  • Enter the number where you want to place your piece")
+    print("\nNumber positions:")
+    print("\t~~~~~~~~~~~~~~~~~")
+    print("\t|| 1 || 2 || 3 ||")
+    print("\t|| 4 || 5 || 6 ||")
+    print("\t|| 7 || 8 || 9 ||")
+    print("\t~~~~~~~~~~~~~~~~~")
+    print("\nLet's start!")
+    input("Press Enter to begin the game...")
+
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #Main code
+show_game_intro()
 player_1 = "X"
 player_2 = "O"
 current_game_pieces = ["_"] * 9 
@@ -70,4 +96,4 @@ while is_running:
             print(f"Congratulations! Player 2 has won the game!")
             is_running = False
 
-print("Thanks for playing Tic Tac Toe!  Goodbye!")
+print("Thanks for playing Keko's Tic Tac Toe Game! Goodbye!")
