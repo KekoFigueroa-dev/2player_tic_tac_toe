@@ -1,4 +1,12 @@
-#2 Player Tic Tac Toe
+#Keko's Enhanced 2-Player Tic Tac Toe Game
+#Originally developed for "The Art Of Doing Python Projects" course
+#Enhanced version with improvements including:
+#- Robust input validation and error handling
+#- Professional welcome messages and game instructions
+#- Interactive "Press Enter to start" functionality  
+#- Replay option for multiple games
+#- Improved user experience and feedback
+#Author: Keko Figueroa
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def draw_boards(game_pieces):
     """Print two game baords -> a number board for moves and the current game state"""
@@ -69,31 +77,52 @@ def show_game_intro():
     input("Press Enter to begin the game...")
 
 
+def ask_replay():
+    """Ask player if they want to play again"""
+    while True:
+        choice = input("\nPlay again? (y/n): ").lower().strip()
+        if choice == 'y' or choice == 'yes':
+            return True
+        elif choice == 'n' or choice == 'no':
+            return False
+        else:
+            print("Please enter 'y' for yes or 'n' for no.")
+
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #Main code
 show_game_intro()
-player_1 = "X"
-player_2 = "O"
-current_game_pieces = ["_"] * 9 
-draw_boards(current_game_pieces)
 
-
-is_running = True
-while is_running:
-    #Player 1 turn
-    get_player_move(player_1, current_game_pieces)
+playing = True
+while playing:
+    player_1 = "X"
+    player_2 = "O"
+    current_game_pieces = ["_"] * 9 
     draw_boards(current_game_pieces)
-    if determine_winner(player_1, current_game_pieces):
-        print(f"Congratulations! Player 1 has won the game!")
-        is_running = False
-    elif "_" not in current_game_pieces:
-        print("The game is a tie!")
-        is_running = False
-    else:
-        get_player_move(player_2, current_game_pieces)
+
+    is_running = True
+    while is_running:
+        #Player 1 turn
+        get_player_move(player_1, current_game_pieces)
         draw_boards(current_game_pieces)
-        if determine_winner(player_2, current_game_pieces):
-            print(f"Congratulations! Player 2 has won the game!")
+        if determine_winner(player_1, current_game_pieces):
+            print(f"Congratulations! Player 1 (X) has won the game!")
             is_running = False
+        elif "_" not in current_game_pieces:
+            print("The game is a tie!")
+            is_running = False
+        else:
+            #Player 2 turn
+            get_player_move(player_2, current_game_pieces)
+            draw_boards(current_game_pieces)
+            if determine_winner(player_2, current_game_pieces):
+                print(f"Congratulations! Player 2 (O) has won the game!")
+                is_running = False
+            elif "_" not in current_game_pieces:
+                print("The game is a tie!")
+                is_running = False
+    
+    # Ask if they want to play again
+    playing = ask_replay()
 
 print("Thanks for playing Keko's Tic Tac Toe Game! Goodbye!")
